@@ -27,6 +27,31 @@ Value Proposition: Provide a reliable tool to detect and flag deepfake images, e
 We have identified several datasets that offer real and deepfake images for testing and training our deepfake detection model. However, accessing these datasets requires meeting certain requirements. Currently, we are in the process of fulfilling those requirements. Once we obtain the dataset, we will proceed with data exploration, which will involve tasks such as splitting and organizing the data.
 """
 
+import os
+import numpy as np
+import cv2
+from sklearn.model_selection import train_test_split
+import tensorflow as tf
+from tensorflow.keras import layers, models
+from tensorflow.keras.applications import ResNet50
+import gradio as gr
+
+# Step 1: Data Gathering
+def load_data(data_dir):
+    images = []
+    labels = []
+    for label in os.listdir(data_dir):
+        label_dir = os.path.join(data_dir, label)
+        for image_file in os.listdir(label_dir):
+            image_path = os.path.join(label_dir, image_file)
+            image = cv2.imread(image_path)
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # Convert BGR to RGB
+            images.append(image)
+            labels.append(1 if label == 'fake' else 0)  # Assuming 'fake' folder contains deepfake images
+    return np.array(images), np.array(labels)
+
+data_dir = "/content/drive/MyDrive/Deepfake_Dataset"
+images, labels = load_data(data_dir)
 
 
 """# ***3. Data Preparation***
