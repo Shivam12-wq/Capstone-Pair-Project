@@ -63,24 +63,19 @@ The **preprocess_image** function takes an image file from the given path and us
 We are using standarsd size 224x224 which is commonly used in deeplearning models specially like CNN (convolutional neural networks) model which will be used in modelling phase of this deepfake detection.
 """
 
-import cv2
-import numpy as np
+# Step 2: Data Preparation
+train_images, test_images, train_labels, test_labels = train_test_split(images, labels, test_size=0.2, random_state=42)
 
-
-# Function to preprocess dataset images
-def preprocess_image(image_path, target_size):
-    image = cv2.imread(image_path)
-    image = cv2.resize(image, target_size)
-    # Normalize pixel values
+def preprocess_image(image):
+    image = cv2.resize(image, (224, 224))
     image = image.astype("float") / 255.0
-    #saving resized image
-    cv2.imwrite('resized.png',image)
     return image
 
+train_images = np.array([preprocess_image(img) for img in train_images])
+test_images = np.array([preprocess_image(img) for img in test_images])
 
-#using a real image to test preprocessing results
-image_path = "/dataset_deepfake/real/real_0.jpg"
-processed_image = preprocess_image(image_path, (224, 224))
+
+
 
 """# ***4. Modelling***
 
