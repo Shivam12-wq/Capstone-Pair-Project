@@ -47,7 +47,7 @@ def load_data(data_dir):
             image = cv2.imread(image_path)
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # Convert BGR to RGB
             images.append(image)
-            labels.append(1 if label == 'fake' else 0)  # Assuming 'fake' folder contains deepfake images
+            labels.append(1 if label == 'fake' else 0)  #'fake' folder contains deepfake images
     return np.array(images), np.array(labels)
 
 data_dir = "/content/drive/MyDrive/Deepfake_Dataset"
