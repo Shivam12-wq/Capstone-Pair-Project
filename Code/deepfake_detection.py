@@ -92,6 +92,11 @@ def create_cnn():
     ])
     return model
 
+# Step 4: Model Training
+def train_model(model, train_images, train_labels, val_images, val_labels, epochs=10):
+    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+    history = model.fit(train_images, train_labels, epochs=epochs, validation_data=(val_images, val_labels))
+    return model, history
 
 
 """# ***5. Evaluation***
