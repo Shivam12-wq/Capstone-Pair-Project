@@ -75,11 +75,26 @@ train_images = np.array([preprocess_image(img) for img in train_images])
 test_images = np.array([preprocess_image(img) for img in test_images])
 
 
+"""# ***4. Modeling *** """
+
+# Step 3: Modeling - Basic CNN
+def create_cnn():
+    model = models.Sequential([
+        layers.Conv2D(32, (3, 3), activation='relu', input_shape=(224, 224, 3)),
+        layers.MaxPooling2D((2, 2)),
+        layers.Conv2D(64, (3, 3), activation='relu'),
+        layers.MaxPooling2D((2, 2)),
+        layers.Conv2D(128, (3, 3), activation='relu'),
+        layers.MaxPooling2D((2, 2)),
+        layers.Flatten(),
+        layers.Dense(128, activation='relu'),
+        layers.Dense(1, activation='sigmoid')
+    ])
+    return model
 
 
-"""# ***4. Modelling***
 
-# ***5. Evaluation***
+"""# ***5. Evaluation***
 
 # ***6. Deployment***
 """
