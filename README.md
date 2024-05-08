@@ -21,14 +21,15 @@ Value Proposition: Provide a reliable tool to detect and flag deepfake images, e
 # 2. Data Understanding
 Gathering a diverse dataset of real and deepfake images.
 
-We have identified several datasets that offer real and deepfake images for testing and training our deepfake detection model. However, accessing these datasets requires meeting certain requirements. Currently, we are in the process of fulfilling those requirements. Once we obtain the dataset, we will proceed with data exploration, which will involve tasks such as splitting and organizing the data.
+We have identified several datasets that offer real and deepfake images for testing and training our deepfake detection model. finally, we gathered some relevant data for our deepfake detection through Kaggle. This dataset directory contains real and fake subdirectories that include real images and deepfake AI-generated images to train and test data. Currently, we have stored the data in Google Drive because storing large amounts of data in Google Drive and accessing it directly from there makes it more efficient.
 
 
 # 3. Data Preparation
 Preprocessing the data by resizing, normalizing pixel value, and converting formats.
 
-The preprocess_image function takes an image file from the given path and uses OpenCV to read it. Then, it resizes the image to the specified target size using cv2.resize. After that, the function normalizes the resized image by dividing all pixel values by 255.0 to make them fall within the range of 0 to 1. Finally, it saves the resized image as 'resized.png' using cv2.imwrite and returns the preprocessed image as a NumPy array.
+The preprocess_image function takes an image file from the given path and uses OpenCV to read it. Then, it resizes the image to the specified target size using cv2.resize. After that, the function normalizes the resized image by dividing all pixel values by 255.0 to make them fall within the range of 0 to 1. 
 
-We are using standard size 224x224 which is commonly used in deeplearning models specially like CNN (convolutional neural networks) model which will be used in modeling phase of this deepfake detection.
+We are using standard size 224x224 which is commonly used in deep-learning models, especially the CNN (convolutional neural networks) model which will be used in the modeling phase of this deepfake detection.
 
 
+# 4. Modeling
