@@ -138,6 +138,7 @@ resnet_accuracy = evaluate_model(resnet_model, test_images, test_labels)
 
 """# ***6. Deployment***
 """
+
 # Step 7: Deployment using Gradio Interface
 def predict_deepfake(image):
     processed_image = preprocess_image(image)
