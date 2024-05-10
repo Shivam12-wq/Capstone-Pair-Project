@@ -98,8 +98,21 @@ def train_model(model, train_images, train_labels, val_images, val_labels, epoch
     history = model.fit(train_images, train_labels, epochs=epochs, validation_data=(val_images, val_labels))
     return model, history
 
+# Split train set further into train and validation sets
+train_images, val_images, train_labels, val_labels = train_test_split(train_images, train_labels, test_size=0.2, random_state=42)
 
-"""# ***5. Evaluation***
+# Train basic CNN model
+basic_cnn_model = create_basic_cnn()
+basic_cnn_model, basic_cnn_history = train_model(basic_cnn_model, train_images, train_labels, val_images, val_labels)
 
-# ***6. Deployment***
+"""# ***5. Evaluation***"""
+
+# Step 5: Model Evaluation
+def evaluate_model(model, test_images, test_labels):
+    test_loss, test_accuracy = model.evaluate(test_images, test_labels)
+    return test_accuracy
+
+basic_cnn_accuracy = evaluate_model(basic_cnn_model, test_images, test_labels)
+
+"""# ***6. Deployment***
 """
