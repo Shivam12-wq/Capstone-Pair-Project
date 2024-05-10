@@ -92,7 +92,22 @@ def create_cnn():
     ])
     return model
 
-# Step 4: Model Training
+
+# Step 4: Modeling - Pre-trained Model (ResNet50)
+def resnet_model():
+    base_model = ResNet50(include_top=False, weights='imagenet', input_shape=(224, 224, 3))
+    for layer in base_model.layers:
+        layer.trainable = False  # Freeze pre-trained layers
+    model = models.Sequential([
+        base_model,
+        layers.GlobalAveragePooling2D(),
+        layers.Dense(128, activation='relu'),
+        layers.Dense(1, activation='sigmoid')
+    ])
+    return model
+
+
+# Step 5: Model Training
 def train_model(model, train_images, train_labels, val_images, val_labels, epochs=10):
     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
     history = model.fit(train_images, train_labels, epochs=epochs, validation_data=(val_images, val_labels))
@@ -105,14 +120,21 @@ train_images, val_images, train_labels, val_labels = train_test_split(train_imag
 basic_cnn_model = create_basic_cnn()
 basic_cnn_model, basic_cnn_history = train_model(basic_cnn_model, train_images, train_labels, val_images, val_labels)
 
+# Train ResNet50 model
+resnet_model = resnet_model()
+resnet_model, resnet_history = train_model(resnet_model, train_images, train_labels, val_images, val_labels)
+
+#Train VGG16 mo
+
 """# ***5. Evaluation***"""
 
-# Step 5: Model Evaluation
+# Step 6: Model Evaluation
 def evaluate_model(model, test_images, test_labels):
     test_loss, test_accuracy = model.evaluate(test_images, test_labels)
     return test_accuracy
 
 basic_cnn_accuracy = evaluate_model(basic_cnn_model, test_images, test_labels)
+resnet_accuracy = evaluate_model(resnet_model, test_images, test_labels)
 
 """# ***6. Deployment***
 """
@@ -120,7 +142,8 @@ basic_cnn_accuracy = evaluate_model(basic_cnn_model, test_images, test_labels)
 def predict_deepfake(image):
     processed_image = preprocess_image(image)
     basic_cnn_prediction = basic_cnn_model.predict(np.expand_dims(processed_image, axis=0))[0][0]
-    return basic_cnn_prediction
+    resnet_prediction = resnet_model.predict(np.expand_dims(processed_image, axis=0))[0][0]
+    return basic_cnn_prediction, resnet_prediction
 
-iface = gr.Interface(fn=predict_deepfake, inputs="image", outputs=["text"], title="Deepfake Detection")
+iface = gr.Interface(fn=predict_deepfake, inputs="image", outputs=["text", "text"], title="Deepfake Detection")
 iface.launch()
