@@ -116,3 +116,11 @@ basic_cnn_accuracy = evaluate_model(basic_cnn_model, test_images, test_labels)
 
 """# ***6. Deployment***
 """
+# Step 7: Deployment using Gradio Interface
+def predict_deepfake(image):
+    processed_image = preprocess_image(image)
+    basic_cnn_prediction = basic_cnn_model.predict(np.expand_dims(processed_image, axis=0))[0][0]
+    return basic_cnn_prediction
+
+iface = gr.Interface(fn=predict_deepfake, inputs="image", outputs=["text"], title="Deepfake Detection")
+iface.launch()
