@@ -77,7 +77,7 @@ test_images = np.array([preprocess_image(img) for img in test_images])
 
 """# ***4. Modeling *** """
 
-# Step 3: Modeling - Basic CNN
+# Step 3: Model# 1 - Basic CNN
 def create_cnn():
     model = models.Sequential([
         layers.Conv2D(32, (3, 3), activation='relu', input_shape=(224, 224, 3)),
@@ -93,7 +93,7 @@ def create_cnn():
     return model
 
 
-# Step 4: Modeling - Pre-trained Model (ResNet50)
+# Step 3: Model# 2 - Pre-trained Model ResNet50
 def resnet_model():
     base_model = ResNet50(include_top=False, weights='imagenet', input_shape=(224, 224, 3))
     for layer in base_model.layers:
@@ -107,7 +107,21 @@ def resnet_model():
     return model
 
 
-# Step 5: Model Training
+# Step 3: Model# 3- VGG16 Model
+def vgg_model():
+    base_model = VGG16(include_top=False, weights='imagenet', input_shape=(224, 224, 3))
+    for layer in base_model.layers[:-4]:  # Unfreeze the last 4 layers
+        layer.trainable = False
+    model = models.Sequential([
+        base_model,
+        layers.Flatten(),
+        layers.Dense(256, activation='relu'),
+        layers.Dense(1, activation='sigmoid')
+    ])
+    return model
+
+
+# Step 4: Model Training
 def train_model(model, train_images, train_labels, val_images, val_labels, epochs=10):
     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
     history = model.fit(train_images, train_labels, epochs=epochs, validation_data=(val_images, val_labels))
@@ -128,7 +142,7 @@ resnet_model, resnet_history = train_model(resnet_model, train_images, train_lab
 
 """# ***5. Evaluation***"""
 
-# Step 6: Model Evaluation
+# Step 5: Model Evaluation
 def evaluate_model(model, test_images, test_labels):
     test_loss, test_accuracy = model.evaluate(test_images, test_labels)
     return test_accuracy
@@ -139,7 +153,7 @@ resnet_accuracy = evaluate_model(resnet_model, test_images, test_labels)
 """# ***6. Deployment***
 """
 
-# Step 7: Deployment using Gradio Interface
+# Step 6: Deployment using Gradio Interface
 def predict_deepfake(image):
     processed_image = preprocess_image(image)
     basic_cnn_prediction = basic_cnn_model.predict(np.expand_dims(processed_image, axis=0))[0][0]
