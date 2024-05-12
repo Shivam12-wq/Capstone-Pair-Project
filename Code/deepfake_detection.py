@@ -161,17 +161,17 @@ def predict_deepfake(image):
     processed_image = preprocess_image(image)
     basic_cnn_prediction = basic_cnn_model.predict(np.expand_dims(processed_image, axis=0))[0][0]
     resnet_prediction = resnet_model.predict(np.expand_dims(processed_image, axis=0))[0][0]
-    
+    vgg_prediction = vgg_model.predict(np.expand_dims(processed_image, axis=0))[0][0]
     # Threshold for classifying as real or fake
     threshold = 0.5
 
     # Determine labels based on predictions that are either real or fake
     basic_cnn_label = "Real" if basic_cnn_prediction < threshold else "Fake"
     resnet_label = "Real" if resnet_prediction < threshold else "Fake"
+    vgg_label = "Real" if vgg_prediction < threshold else "Fake"
+    return basic_cnn_label, resnet_label, vgg_label
 
-    return basic_cnn_label, resnet_label
-
-# Create Gradio interface
-iface = gr.Interface(fn=predict_deepfake, inputs="image", outputs=["text", "text"], title="Deepfake Detection")
+# Create a Gradio interface
+iface = gr.Interface(fn=predict_deepfake, inputs="image", outputs=["text", "text", "text"], title="Deepfake Detection")
 iface.launch()
 
