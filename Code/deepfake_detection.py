@@ -138,7 +138,9 @@ basic_cnn_model, basic_cnn_history = train_model(basic_cnn_model, train_images, 
 resnet_model = resnet_model()
 resnet_model, resnet_history = train_model(resnet_model, train_images, train_labels, val_images, val_labels)
 
-#Train VGG16 mo
+#Train VGG16 model
+vgg_model = vgg_model()
+vgg_model, vgg_history = train_model(vgg_model, train_images, train_labels, val_images, val_labels)
 
 """# ***5. Evaluation***"""
 
@@ -149,6 +151,7 @@ def evaluate_model(model, test_images, test_labels):
 
 basic_cnn_accuracy = evaluate_model(basic_cnn_model, test_images, test_labels)
 resnet_accuracy = evaluate_model(resnet_model, test_images, test_labels)
+vgg_accuracy = evaluate_model(vgg_model, test_images, test_labels)
 
 """# ***6. Deployment***
 """
@@ -162,7 +165,7 @@ def predict_deepfake(image):
     # Threshold for classifying as real or fake
     threshold = 0.5
 
-    # Determine labels based on predictions either real or fake
+    # Determine labels based on predictions that are either real or fake
     basic_cnn_label = "Real" if basic_cnn_prediction < threshold else "Fake"
     resnet_label = "Real" if resnet_prediction < threshold else "Fake"
 
