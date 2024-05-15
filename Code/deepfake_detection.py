@@ -120,6 +120,18 @@ def vgg_model():
     ])
     return model
 
+# Step 3: Model# 4 - EfficientNetB0 Model
+def efficientnet_model():
+    # EfficientNetB0 with preloaded ImageNet weights, not including the top, for customized top layers
+    base_model = EfficientNetB0(include_top=False, weights='imagenet', input_shape=(224, 224, 3))
+    base_model.trainable = False
+    model = models.Sequential([
+        base_model,
+        layers.GlobalAveragePooling2D(),
+        layers.Dense(128, activation='relu'),
+        layers.Dense(1, activation='sigmoid')
+    ])
+    return model
 
 # Step 4: Model Training
 def train_model(model, train_images, train_labels, val_images, val_labels, epochs=10):
