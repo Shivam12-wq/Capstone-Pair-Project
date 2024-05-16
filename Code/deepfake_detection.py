@@ -207,23 +207,32 @@ efficientnet_accuracy = evaluate_model(efficientnet_model, test_images, test_lab
 
 """# ***6. Deployment***
 """
-
-# Deployment using Gradio Interface
+# Deployment
 def predict_deepfake(image):
     processed_image = preprocess_image(image)
-    basic_cnn_prediction = basic_cnn_model.predict(np.expand_dims(processed_image, axis=0))[0][0]
-    resnet_prediction = resnet_model.predict(np.expand_dims(processed_image, axis=0))[0][0]
-    vgg_prediction = vgg_model.predict(np.expand_dims(processed_image, axis=0))[0][0]
-    # Threshold for classifying as real or fake
-    threshold = 0.5
+    predictions = {
+        "Basic CNN": basic_cnn_model.predict(np.expand_dims(processed_image, axis=0))[0][0],
+        "ResNet50": resnet_model.predict(np.expand_dims(processed_image, axis=0))[0][0],
+        "VGG16": vgg_model.predict(np.expand_dims(processed_image, axis=0))[0][0],
+        "EfficientNet": efficientnet_model.predict(np.expand_dims(processed_image, axis=0))[0][0]
+    }
+    # Preparing the results as a simple string listing all predictions with percentage
+    result = ""
+    for model_name, prediction in predictions.items():
+        classification = "Fake" if prediction > 0.5 else "Real"
+        # Convert prediction to percentage confidence
+        percentage = prediction * 100 if classification == "Fake" else (1 - prediction) * 100
+        result += f"{model_name}: {classification} - {percentage:.2f}%\n"
+    return result
 
-    # Determine labels based on predictions that are either real or fake
-    basic_cnn_label = "Real" if basic_cnn_prediction < threshold else "Fake"
-    resnet_label = "Real" if resnet_prediction < threshold else "Fake"
-    vgg_label = "Real" if vgg_prediction < threshold else "Fake"
-    return basic_cnn_label, resnet_label, vgg_label
 
-# Create a Gradio interface
-iface = gr.Interface(fn=predict_deepfake, inputs="image", outputs=["text", "text", "text"], title="Deepfake Detection")
+iface = gr.Interface(
+    fn=predict_deepfake,
+    inputs="image",  # basic input type
+    outputs="text",  # Changed to text output to handle string result
+    title="Deepfake Detection"
+)
 iface.launch()
+
+
 
