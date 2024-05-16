@@ -40,7 +40,7 @@ There are many efficient CNN pretrained models but in this project we have chose
 
 
 
-#5. Evaluation
+# 5. Evaluation
 Evaluate the trained model using the testing set.
 
 Calculating the accuracy and performance in detecting deepfake images to assess the model's effectiveness.
