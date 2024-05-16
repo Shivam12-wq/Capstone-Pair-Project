@@ -45,3 +45,8 @@ Evaluate the trained model using the testing set.
 
 Calculating the accuracy and performance in detecting deepfake images to assess the model's effectiveness.
 
+
+# 6. Deployment
+Using Gradio interface for easy testing and deployment of the deepfake detection models.
+
+Developing a user-friendly interface where users can upload images to be analyzed for deepfakes, where the interface will show if the image is real or fake and the confidence percentage of the prediction indicating accuracy.
