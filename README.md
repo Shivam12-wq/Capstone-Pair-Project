@@ -32,7 +32,16 @@ The preprocess_image function takes an image file from the given path and uses O
 We are using standard size 224x224 which is commonly used in deep-learning models, especially the CNN (convolutional neural networks) model which will be used in the modeling phase of this deepfake detection.
 
 
-#4. Modelling
+# 4. Modelling
 In the modelling phase, we utilized advanced deep learning methods.
 
 There are many efficient CNN pretrained models but in this project we have chosen Basic CNN, ResNet50, VGG-16 and EfficientNetB0 models to conduct a comprehensive comparative analysis of these models and determine which one gives the highest accuracy in identifying deepfake images.
+
+
+
+
+#5. Evaluation
+Evaluate the trained model using the testing set.
+
+Calculating the accuracy and performance in detecting deepfake images to assess the model's effectiveness.
+
