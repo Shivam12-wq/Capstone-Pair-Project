@@ -54,6 +54,21 @@ data_dir = "/content/drive/MyDrive/Deepfake_Dataset"
 images, labels = load_data(data_dir)
 
 
+#  Data Visualization
+def visualize_images(images, labels, num_samples=5):
+    fig, axes = plt.subplots(1, num_samples, figsize=(15, 5))
+    for i in range(num_samples):
+        index = np.random.randint(len(images))
+        axes[i].imshow(images[index])
+        axes[i].set_title('Fake' if labels[index] == 1 else 'Real')
+        axes[i].axis('off')
+    plt.show()
+
+
+# Visualize sample images
+visualize_images(images, labels)
+
+
 """# ***3. Data Preparation***
 
 > Preprocessing the data by resizing, normalizing pixel value, and converting formats.
