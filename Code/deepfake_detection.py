@@ -32,9 +32,12 @@ import numpy as np
 import cv2
 from sklearn.model_selection import train_test_split
 import tensorflow as tf
+from tensorflow import keras
 from tensorflow.keras import layers, models
-from tensorflow.keras.applications import ResNet50
+from tensorflow.keras.applications import ResNet50, VGG16, EfficientNetB0
 import gradio as gr
+import matplotlib.pyplot as plt
+
 
 # Data Gathering
 def load_data(data_dir):
@@ -65,8 +68,24 @@ def visualize_images(images, labels, num_samples=5):
     plt.show()
 
 
+# Data Quality Assessment
+def assess_data_quality(images):
+    num_images = len(images)
+    image_sizes = [image.shape[:2] for image in images]
+    unique_sizes = set(image_sizes)
+    num_unique_sizes = len(unique_sizes)
+
+    print(f"Total number of images: {num_images}")
+    print(f"Number of unique image sizes: {num_unique_sizes}")
+    print("Image Sizes:")
+    for size in unique_sizes:
+        print(size)
+
 # Visualize sample images
 visualize_images(images, labels)
+
+# Assess data quality
+assess_data_quality(images)
 
 
 """# ***3. Data Preparation***
